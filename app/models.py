@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     twofa = db.Column(db.String(10), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    inputtext = db.Column(db.String(128))
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -28,14 +28,7 @@ class User(UserMixin, db.Model):
     def check_twofa(self, twofa):
         return check_password_hash(self.twofa, twofa)
 
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-        return '<Post {}>'.format(self.body)
 
 
 
