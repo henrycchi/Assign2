@@ -27,7 +27,6 @@ class User(UserMixin, db.Model):
 
     def check_twofa(self, twofa):
         return check_password_hash(self.twofa, twofa)
-   
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,3 +36,6 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+
+

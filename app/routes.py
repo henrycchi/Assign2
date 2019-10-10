@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, SpellForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
@@ -8,19 +8,21 @@ from werkzeug.urls import url_parse
 @app.route('/')
 @app.route('/index')
 @login_required
+
 def index():
-    user = {'username': 'Miguel'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template("index.html", title='Home Page', posts=posts)
+    form = SpellForm()
+    if form.validate_on_submit():
+        text = form.inputtext.data
+        f = open("tempUserInput", "w")
+        f.write(text)
+        f.close()
+        process = subprocess.run(['./a.out', 'tempUserInput', 'wordlist.txt'], check=True, stdout=subprocess.PIPE, universal_newlines=True)
+        output = process.stdout
+        os.remove("tempUserInput")
+        misspelledOut = output.replace("\n", ", ").strip().strip(',')
+        return render_template('spellCheckResult.html', misspelled=misspelledOut, textout=text)
+    else:
+        return render_template("index.html", title='Home Page')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -30,13 +32,16 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Error invalid username, or password')
+            flash('Incorrect username, or password')
             return redirect(url_for('login'))
         if not user.check_twofa(form.twofa.data):
-            flash('Error invalid 2FA, enter the number again')
+            flash('Two -factor failure')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
+        flash('success')
+        next_page = url_for('index')
+        return redirect(next_page)
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
             return redirect(next_page)

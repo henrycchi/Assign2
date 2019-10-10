@@ -3,6 +3,10 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
+class SpellForm(FlaskForm):
+    inputtext = StringField('Input', validators=[DataRequired()], id='input')
+    submit = SubmitField('Check')
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()], id='uname')
     password = PasswordField('Password', validators=[DataRequired()], id='pword')
