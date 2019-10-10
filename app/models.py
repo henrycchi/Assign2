@@ -21,6 +21,13 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+	
+    def set_twofa(self, twofa):
+        self.twofa = generate_password_hash(twofa)
+
+    def check_twofa(self, twofa):
+        return check_password_hash(self.twofa, twofa)
+   
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -23,9 +23,9 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Please use a different username.')
 
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+    def validate_twofa(self, twofa):
+        user = User.query.filter_by(twofa=twofa.data).first()
         if user is not None:
-            raise ValidationError('Please use a different email address.')
+            raise ValidationError('Please use a different Cell Number.')
 
 
