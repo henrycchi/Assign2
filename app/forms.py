@@ -4,14 +4,15 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()], id='uname')
+    password = PasswordField('Password', validators=[DataRequired()], id='pword')
+    twofa = StringField('2FA - ENTER YOUR CELL NUMBER', validators=[DataRequired()], id='2fa')
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()], id='uname')
-    email = StringField('2FA', validators=[DataRequired()], id='2fa')
+    twofa = StringField('2FA - ENTER YOUR CELL NUMBER', validators=[DataRequired()], id='2fa')
     password = PasswordField('Password', validators=[DataRequired()], id='pword')
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
