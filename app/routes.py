@@ -1,3 +1,4 @@
+import subprocess
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, SpellForm
@@ -6,23 +7,21 @@ from app.models import User
 from werkzeug.urls import url_parse
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
-
 def index():
     form = SpellForm()
     if form.validate_on_submit():
-        text = form.inputtext.data
-        f = open("tempUserInput", "w")
-        f.write(text)
-        f.close()
-        process = subprocess.run(['./a.out', 'tempUserInput', 'wordlist.txt'], check=True, stdout=subprocess.PIPE, universal_newlines=True)
-        output = process.stdout
-        os.remove("tempUserInput")
-        misspelledOut = output.replace("\n", ", ").strip().strip(',')
-        return render_template('spellCheckResult.html', misspelled=misspelledOut, textout=text)
-    else:
-        return render_template("index.html", title='Home Page')
+        inputtext = form.inputtext.data
+        with open('userinput.txt', 'w') as file:
+            file.write(form.inputtext.data)
+            file.close()
+        textoutput = subprocess.run(['./a.out', 'userinput.txt', 'wordlist.txt'], stdout=subprocess.PIPE, check=True, universal_newlines=True)
+        textmisspell = textoutput.stdout.replace("\n", ", ")[:-2]
+        if textmisspell == "":
+            textmisspell = "No words were misspelled."
+            return render_template('spellcheck.html', textoutput=textoutput.stdout, textmisspell=textmisspell, form=form)
+    return render_template('spellcheck.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

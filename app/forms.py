@@ -4,8 +4,8 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
 class SpellForm(FlaskForm):
-    inputtext = StringField('Input', validators=[DataRequired()], id='input')
-    submit = SubmitField('Check')
+    inputtext = StringField('CheckText', id='inputtext', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()], id='uname')
