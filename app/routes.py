@@ -29,21 +29,21 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-       return redirect(url_for('index'))
+       return redirect(url_for('index'), success= 'success')
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Incorrect username, or password', 'result')
-            return redirect(url_for('login'))
+            flash('Incorrect username, or password')
+            return redirect(url_for('login'), result='incorrect')
         if not user.check_twofa(form.twofa.data):
-            flash('Two -factor failure', 'result')
-            return redirect(url_for('login'))
+            flash('Two -factor failure')
+            return redirect(url_for('login'), result='two-factor failure')
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
-        flash('success', 'result') 
+        flash('success') 
         next_page = url_for('index')
-        return redirect((next_page))
+        return render_template('login.html', success="success", form=form)
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
             return redirect(next_page)

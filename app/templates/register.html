@@ -4,6 +4,7 @@
     <h1>Register</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
+        <p id="success">{{ result }}</p>
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
