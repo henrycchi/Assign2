@@ -35,15 +35,15 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Incorrect username, or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('login'), result='failure')
         if not user.check_twofa(form.twofa.data):
             flash('Two -factor failure')
-            return redirect(url_for('login'))
+            return redirect(url_for('login'), result='two-factor failure')
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         flash('success')
         next_page = url_for('index')
-        return redirect(next_page)
+        return redirect((next_page), result='success')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
             return redirect(next_page)
@@ -66,5 +66,5 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+        return redirect(url_for('login'), success='success')
+    return render_template('register.html', title='Register', form=form, success='failure')
