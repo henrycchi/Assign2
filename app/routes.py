@@ -12,14 +12,17 @@ from werkzeug.urls import url_parse
 def index():
     form = SpellForm()
     if form.validate_on_submit():
-        inputtext = form.inputtext.data
+        temptext = form.inputtext.data
         with open('userinput.txt', 'w') as file:
-            file.write(form.inputtext.data)
+            file.write(temptext)
             file.close()
         textoutput = subprocess.run(['./a.out', 'userinput.txt', 'wordlist.txt'], stdout=subprocess.PIPE, check=True, universal_newlines=True)
         textmisspell = textoutput.stdout.replace("\n", ", ")[:-2]
         if textmisspell == "":
             textmisspell = "No words were misspelled."
+            return render_template('spellcheck.html', textoutput=temptext, textmisspell=textmisspell, form=form)
+        else:
+            textmisspell = temptext
             return render_template('spellcheck.html', textoutput=textoutput.stdout, textmisspell=textmisspell, form=form)
     return render_template('spellcheck.html', form=form)
 
