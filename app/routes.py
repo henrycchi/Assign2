@@ -29,7 +29,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-       return redirect(url_for('index'), success= 'success')
+       return redirect(url_for('index'), result= 'success')
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -41,9 +41,8 @@ def login():
             return redirect(url_for('login'), result='two-factor failure')
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
-        flash('success') 
         next_page = url_for('index')
-        return render_template('login.html', success="success", form=form)
+        return render_template('loginresult.html', result="success")
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
             return redirect(next_page)
