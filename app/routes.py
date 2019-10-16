@@ -16,14 +16,14 @@ def index():
         with open('userinput.txt', 'w') as file:
             file.write(temptext)
             file.close()
-        textoutput = subprocess.run(['./a.out', 'userinput.txt', 'wordlist.txt'], stdout=subprocess.PIPE, check=True, universal_newlines=True)
-        textmisspell = textoutput.stdout.replace("\n", ", ")[:-2]
-        if textmisspell == "":
-            textmisspell = "No words were misspelled."
-            return render_template('spellcheck.html', textoutput=temptext, textmisspell=textmisspell, form=form)
+        textmisspell = subprocess.run(['./a.out', 'userinput.txt', 'wordlist.txt'], stdout=subprocess.PIPE, check=True, universal_newlines=True)
+        textoutput = (textmisspell.stdout).replace("\n", ", ").strip().strip(',')
+        if textoutput == "":
+            textoutput = "No words were misspelled."
+            return render_template('spellcheck.html', textmisspell=temptext, textoutput=textoutput, form=form)
         else:
-            textmisspell = temptext
-            return render_template('spellcheck.html', textoutput=textoutput.stdout, textmisspell=textmisspell, form=form)
+            textoutput = temptext
+            return render_template('spellcheck.html', textmisspell=textmisspell.stdout, textoutput=textoutput, form=form)
     return render_template('spellcheck.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
