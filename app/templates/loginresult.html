@@ -4,4 +4,7 @@
     <h1>Logon Status Page</h1>
     <h2> The status of your login  is: </h2>
     <h2 id="result"> {{result}} </h2>
-    {% endblock %}
+    {% if result == 'success' %}
+        <a href="/index"> Spell Check </a>
+    {% endif %}
+{% endblock %}

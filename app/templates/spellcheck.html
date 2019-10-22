@@ -6,9 +6,9 @@
 
 {% block content %}
     <form action="" method="post" novalidate>
-                <h2>Text Input</h2>
-        {{ form.hidden_tag() }}
-                <p>
+    <h2>Text Input</h2>
+    {{ form.hidden_tag() }}
+    <p>
             {{ form.inputtext.label }}<br>
             {{ form.inputtext(cols=32, rows=8) }}
                         {% for error in form.inputtext.errors %}
@@ -17,8 +17,8 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
-        <h2>Text Output</h2>
-        <div id="textout">{{ textoutput }}</div>
+        <h2>Text that was entered</h2>
+        <div id="textout">{{ textout }}</div>
         <h2>Misspelled Words</h2>
-        <div id="misspelled">{{ textmisspell }}</div>
+        <div id="misspelled">{{ misspelled }}</div>
 {% endblock %}
