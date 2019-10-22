@@ -20,10 +20,10 @@ def index():
         textoutput = (textmisspell.stdout).replace("\n", ", ").strip().strip(',')
         if textoutput == "":
             textoutput = "No words were misspelled."
-            return render_template('spellcheck.html', textmisspell=temptext, textoutput=textoutput, form=form)
+            return render_template('spellcheck.html', textmisspell=textoutput, textoutput=temptext, form=form)
         else:
-            textoutput = temptext
-            return render_template('spellcheck.html', textmisspell=textmisspell.stdout, textoutput=textoutput, form=form)
+            #textoutput = temptext
+            return render_template('spellcheck.html', textmisspell=textmisspell.stdout, textoutput=temptext, form=form)
     return render_template('spellcheck.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
