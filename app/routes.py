@@ -12,7 +12,7 @@ from werkzeug.urls import url_parse
 def index():
     return render_template('index.html')
 
-@app.route('/spell', methods=['GET', 'POST'])
+@app.route('/spell_check', methods=['GET', 'POST'])
 @login_required
 def spell():
     form = SpellForm()
@@ -64,6 +64,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
+        result="true"
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -72,6 +73,7 @@ def register():
         user.set_twofa(form.twofa.data)
         db.session.add(user)
         db.session.commit()
+        result="true"
         flash('Congratulations, you are now a registered user!')
-        return render_template('registerresult.html', result='success')
-    return render_template('register.html', title='Register', form=form, success='failure')
+        return render_template('registerresult.html', result='true')
+    return render_template('register.html', title='Register', form=form, result='failure')
