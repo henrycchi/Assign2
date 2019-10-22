@@ -18,8 +18,6 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()], id='uname')
     twofa = StringField('2FA - ENTER YOUR CELL NUMBER', validators=[DataRequired()], id='2fa')
     password = PasswordField('Password', validators=[DataRequired()], id='pword')
-    password2 = PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
