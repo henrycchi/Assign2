@@ -7,9 +7,14 @@ from app.models import User
 from werkzeug.urls import url_parse
 
 @app.route('/')
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/index')
 @login_required
 def index():
+    return render_template('index.html')
+
+@app.route('/spell', methods=['GET', 'POST'])
+@login_required
+def spell():
     form = SpellForm()
     if form.validate_on_submit():
         temptext = form.inputtext.data

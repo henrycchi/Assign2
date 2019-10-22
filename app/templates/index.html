@@ -2,17 +2,5 @@
 
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
-    <form action="" method="post">
-    {{ form.hidden_tag() }}
-        <p id="result">{{ result }}</p>
-        <p id="success">{{ success }}</p>
-        <p>
-            {{ form.inputtext.label }}<br>
-            {{ form.inputtext(size=128) }}<br>
-            {% for error in form.inputtext.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-	<p>{{ form.submit() }}</p>
-    </form>
+    <a href="/spell"> Spell Check </a>
 {% endblock %}
