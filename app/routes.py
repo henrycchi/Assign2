@@ -76,4 +76,4 @@ def register():
         result="success"
         flash('Congratulations, you are now a registered user!')
         return render_template('registerresult.html', result='success')
-    return render_template('register.html', title='Register', form=form, result='failure')
+    return render_template('register.html', title='Register', form=form)
