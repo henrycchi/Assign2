@@ -9,28 +9,28 @@
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
             {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span id="success" style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.twofa.label }}<br>
             {{ form.twofa(size=10) }}<br>
             {% for error in form.twofa.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span id="success" style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.password.label }}<br>
             {{ form.password(size=32) }}<br>
             {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span id="success" style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.password2.label }}<br>
             {{ form.password2(size=32) }}<br>
             {% for error in form.password2.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span id="success" style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>{{ form.submit() }}</p>
