@@ -17,14 +17,13 @@ def index():
             file.write(temptext)
             file.close()
         textmisspell = subprocess.run(['./a.out', 'userinput.txt', 'wordlist.txt'], stdout=subprocess.PIPE, check=True, universal_newlines=True)
-        textoutput = (textmisspell.stdout).replace("\n", ", ").strip().strip(',')
-        if textoutput == "":
-            textoutput = "No words were misspelled."
-            return render_template('spellcheck.html', textmisspell=textoutput, textoutput=temptext, form=form)
-        else:
-            #textoutput = temptext
-            return render_template('spellcheck.html', textmisspell=textmisspell.stdout, textoutput=temptext, form=form)
-    return render_template('spellcheck.html', form=form)
+        textoutput = (textmisspell.stdout).replace("\n",",").strip().strip(',')
+        #if textoutput == "":
+            #textoutput = "No words were misspelled."
+        return render_template('spellcheck.html', misspelled=textoutput, textout=temptext, form=form)
+    else:
+            #return render_template('spellcheck.html', misspelled=textoutput, textout=temptext, form=form)
+        return render_template('spellcheck.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
