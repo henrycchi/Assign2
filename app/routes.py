@@ -64,7 +64,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        result="true"
+        result="success"
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -73,7 +73,7 @@ def register():
         user.set_twofa(form.twofa.data)
         db.session.add(user)
         db.session.commit()
-        result="true"
+        result="success"
         flash('Congratulations, you are now a registered user!')
-        return render_template('registerresult.html', result='true')
+        return render_template('registerresult.html', result='success')
     return render_template('register.html', title='Register', form=form, result='failure')
