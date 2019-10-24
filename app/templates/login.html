@@ -2,6 +2,9 @@
 
 {% block content %}
     <h1>Sign In</h1>
+    <div class="main_frame">
+    <iframe class="frame-border scroll-pane" src="http://127.0.0.1:5000/" frameborder="0"></iframe>
+    </div>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p id="result">{{ result }}</p>
